@@ -15,9 +15,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
-    - name: Clone repository content
-      run: git clone https://github.com/TheNetsky/Microsoft-Rewards-Script.git .
+      with:
+        repository: TheNetsky/Microsoft-Rewards-Script
       
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
