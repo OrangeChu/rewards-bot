@@ -1,0 +1,44 @@
+name: Docker Image CI
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Set up date-time variable
+      id: vars
+      run: echo "DATETIME_TAG=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/rewards-bot:latest
+          ${{ secrets.DOCKER_USERNAME }}/rewards-bot:${{ github.sha }}
+          ${{ secrets.DOCKER_USERNAME }}/rewards-bot:${{ env.DATETIME_TAG }}
+        context: .
+        file: ./Dockerfile
+
+    - name: Logout from Docker Hub
+      run: docker logout
