@@ -9,7 +9,7 @@ RUN npx playwright install
 RUN npm run build
 
 # Install cron
-RUN apt-get update && apt-get install -y cron
+RUN apt-get update && apt-get install -y cron bc
 
 # Give execution rights to run_daily.sh
 RUN chmod +x /usr/src/microsoft-rewards-script/src/run_daily.sh
