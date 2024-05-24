@@ -36,6 +36,9 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Set timezone to UTC+8
+      run: sudo ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" | sudo tee /etc/timezone
+
     - name: Set up date-time variable
       id: vars
       run: echo "DATETIME_TAG=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
