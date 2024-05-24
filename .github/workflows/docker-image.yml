@@ -1,8 +1,6 @@
 name: Docker Image CI
 
 on:
-  schedule:
-    - cron: '0 0 * * *'
   push:
     branches: [ "main" ]
   pull_request:
@@ -13,11 +11,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout code from TheNetsky/Microsoft-Rewards-Script
       uses: actions/checkout@v4
       with:
         repository: TheNetsky/Microsoft-Rewards-Script
-      
+        path: script_repo
+
+    - name: Checkout code from current repository
+      uses: actions/checkout@v4
+      with:
+        path: current_repo
+
+    - name: Copy Dockerfile and entrypoint.sh
+      run: |
+        cp current_repo/Dockerfile script_repo/Dockerfile
+        cp current_repo/entrypoint.sh script_repo/entrypoint.sh
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
@@ -35,12 +44,12 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
+        context: script_repo
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/rewards-bot:latest
           ${{ secrets.DOCKER_USERNAME }}/rewards-bot:${{ github.sha }}
           ${{ secrets.DOCKER_USERNAME }}/rewards-bot:${{ env.DATETIME_TAG }}
-        context: .
-        file: ./Dockerfile
+        file: script_repo/Dockerfile
 
     - name: Logout from Docker Hub
       run: docker logout
