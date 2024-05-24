@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN npm install
-RUN npx playwright install
+
 RUN npm run build
 
 # Install cron
