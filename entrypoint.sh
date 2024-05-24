@@ -18,10 +18,15 @@ crontab /etc/cron.d/crontab
 # Give execution rights on the cron job
 chmod 0644 /etc/cron.d/crontab
 
-# Calculate and display the next execution time
-echo "Cron schedule: ${CRON_SCHEDULE}"
-echo "Current date and time: $(date)"
-NEXT_RUN=$(date -d "$(echo "$CRON_SCHEDULE" | awk '{print $1,$2,$3,$4,$5}')" +'%Y-%m-%d %H:%M:%S')
+# Calculate and display the next execution time using croniter
+NEXT_RUN=$(python3 -c "
+from croniter import croniter
+from datetime import datetime
+schedule = '${CRON_SCHEDULE}'
+base_time = datetime.now()
+iter = croniter(schedule, base_time)
+print(iter.get_next(datetime).strftime('%Y-%m-%d %H:%M:%S'))
+")
 echo "Next job scheduled at: $NEXT_RUN"
 
 # Start cron
