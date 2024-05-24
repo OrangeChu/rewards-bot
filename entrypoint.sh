@@ -10,7 +10,7 @@ if [ "$RUN_ON_START" = "true" ]; then
 fi
 
 # Create a crontab file with the specified schedule
-echo "${CRON_SCHEDULE} /usr/src/app/src/run_daily.sh >> /var/log/cron.log 2>&1" > /etc/cron.d/crontab
+echo "${CRON_SCHEDULE} /usr/src/microsoft-rewards-script/src/run_daily.sh >> /var/log/cron.log 2>&1" > /etc/cron.d/crontab
 
 # Apply cron job
 crontab /etc/cron.d/crontab
