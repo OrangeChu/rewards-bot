@@ -9,7 +9,8 @@ RUN npx playwright install
 RUN npm run build
 
 # Install cron
-RUN apt-get update && apt-get install -y cron bc
+RUN apt-get update && apt-get install -y cron python3 python3-pip
+RUN pip3 install croniter
 
 # Give execution rights to run_daily.sh
 RUN chmod +x /usr/src/app/src/run_daily.sh
