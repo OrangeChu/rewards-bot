@@ -2,11 +2,10 @@ FROM mcr.microsoft.com/playwright:v1.44.1-jammy
 
 WORKDIR /usr/src/app
 
-COPY git clone https://github.com/TheNetsky/Microsoft-Rewards-Script.git ./
+COPY . .
+
 RUN npm install
-
 RUN npx playwright install
-
 RUN npm run build
 
 # Install cron
