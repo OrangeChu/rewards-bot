@@ -24,10 +24,12 @@ from croniter import croniter
 from datetime import datetime
 schedule = '${CRON_SCHEDULE}'
 base_time = datetime.now()
+print('Current time:', base_time.strftime('%Y-%m-%d %H:%M:%S'))
 iter = croniter(schedule, base_time)
-print(iter.get_next(datetime).strftime('%Y-%m-%d %H:%M:%S'))
+print('Next job scheduled at:', iter.get_next(datetime).strftime('%Y-%m-%d %H:%M:%S'))
 ")
-echo "Next job scheduled at: $NEXT_RUN"
+
+echo "$NEXT_RUN"
 
 # Start cron
 cron
