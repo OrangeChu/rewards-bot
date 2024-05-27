@@ -13,21 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code from TheNetsky/Microsoft-Rewards-Script
+    - name: Checkout code from mgrimace/Microsoft-Rewards-Script/tree/docker
       uses: actions/checkout@v4
       with:
         repository: TheNetsky/Microsoft-Rewards-Script
         path: script_repo
-
-    - name: Checkout code from current repository
-      uses: actions/checkout@v4
-      with:
-        path: current_repo
-
-    - name: Copy Dockerfile and entrypoint.sh
-      run: |
-        cp current_repo/Dockerfile script_repo/Dockerfile
-        cp current_repo/entrypoint.sh script_repo/entrypoint.sh
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
