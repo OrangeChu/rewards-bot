@@ -13,8 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code from mgrimace/Microsoft-Rewards-Script/tree/docker
+    - name: Checkout this repository
       uses: actions/checkout@v4
+
+    - name: Clone Microsoft-Rewards-Script repository
+      run: git clone --branch docker https://github.com/mgrimace/Microsoft-Rewards-Script.git
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -36,8 +39,8 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        context: .
-        file: ./Dockerfile
+        context: ./Microsoft-Rewards-Script
+        file: ./Microsoft-Rewards-Script/Dockerfile
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/rewards-bot:latest
           ${{ secrets.DOCKER_USERNAME }}/rewards-bot:${{ github.sha }}
