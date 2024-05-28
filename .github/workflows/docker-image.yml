@@ -36,12 +36,12 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        context: script_repo
+        context: .
+        file: ./Dockerfile
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/rewards-bot:latest
           ${{ secrets.DOCKER_USERNAME }}/rewards-bot:${{ github.sha }}
           ${{ secrets.DOCKER_USERNAME }}/rewards-bot:${{ env.DATETIME_TAG }}
-        file: script_repo/Dockerfile
 
     - name: Logout from Docker Hub
       run: docker logout
