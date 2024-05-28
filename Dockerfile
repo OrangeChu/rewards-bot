@@ -12,7 +12,9 @@ RUN npm run build
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y cron python3 python3-pip tzdata && ln -fs /usr/share/zoneinfo/$TZ /etc/localtime && dpkg-reconfigure -f noninteractive tzdata && apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN pip3 install croniter
 
-RUN npx playwright install chromium
+RUN npx playwright install
+
+RUN npx playwright install-deps
 
 # Give execution rights to run_daily.sh
 RUN chmod +x /usr/src/microsoft-rewards-script/src/run_daily.sh
