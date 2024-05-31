@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Clone Microsoft-Rewards-Script repository
-      run: git clone --branch docker https://github.com/mgrimace/Microsoft-Rewards-Script.git
+      run: git clone https://github.com/mgrimace/Microsoft-Rewards-Script.git
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
