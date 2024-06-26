@@ -25,29 +25,14 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Check for changes in Microsoft-Rewards-Script
-      id: check_changes
-      run: |
-        cd Microsoft-Rewards-Script
-        if git diff --quiet HEAD~1; then
-          echo "No changes detected in Microsoft-Rewards-Script."
-          echo "continue=false" >> $GITHUB_ENV
-        else
-          echo "Changes detected in Microsoft-Rewards-Script."
-          echo "continue=true" >> $GITHUB_ENV
-        fi
-
     - name: Set timezone to UTC+8
-      if: env.continue == 'true'
       run: sudo ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" | sudo tee /etc/timezone
 
     - name: Set up date-time variable
-      if: env.continue == 'true'
       id: vars
       run: echo "DATETIME_TAG=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
 
     - name: Build and push Docker image
-      if: env.continue == 'true'
       uses: docker/build-push-action@v5
       with:
         push: true
@@ -59,5 +44,4 @@ jobs:
           ${{ secrets.DOCKER_USERNAME }}/rewards-bot:${{ env.DATETIME_TAG }}
 
     - name: Logout from Docker Hub
-      if: env.continue == 'true'
       run: docker logout
